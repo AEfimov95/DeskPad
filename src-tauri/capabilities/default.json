@@ -1,0 +1,33 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "enables the default permissions",
+  "windows": ["main"],
+  "permissions": [
+    "core:default",
+
+    "sql:default",
+    "sql:allow-execute",
+
+    {
+      "identifier": "http:default",
+      "allow": [{ "url": "https://**" }, { "url": "http://**" }]
+    },
+
+    "opener:default",
+
+    {
+      "identifier": "opener:allow-open-path",
+      "allow": [{ "path": "/**" }]
+    },
+
+    {
+      "identifier": "opener:allow-open-url",
+      "allow": [{ "url": "custom:*" }]
+    },
+
+    "dialog:default",
+    "clipboard-manager:allow-write-html",
+    "store:default"
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "category": {
+    "menu": {
+      "add": "Add category",
+      "settings": "Settings"
+    },
+    "create": {
+      "title": "Add category"
+    },
+    "edit": "Edit",
+    "delete": {
+      "title": "Delete category",
+      "description": "Are you sure you want to delete the category {title}?"
+    },
+    "form": {
+      "name": "Name",
+      "icon": "Icon"
+    }
+  },
+  "pads": {
+    "context": {
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "create": "Add pad",
+    "edit": "Edit",
+    "delete": {
+      "title": "Delete pad",
+      "description": "Are you sure you want to delete {title}?"
+    },
+    "form": {
+      "name": "Name",
+      "description": "Description",
+      "color": "Background",
+      "icon": "Icon",
+      "onlyCustom": "Do not load from source",
+      "hotkey": "Hotkeys",
+      "clipboard": "Сlipboard",
+      "url": "URL",
+      "path": "Path"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "lang": "Language",
+    "theme": "Theme",
+    "show_type": "Show type",
+    "autostart": "Autostart"
+  },
+  "action": {
+    "save": "Save",
+    "delete": "Delete",
+    "select": "Select",
+    "edit": "Edit",
+    "load_icon": "Upload icon"
+  },
+  "message": {
+    "copied": "Copied",
+    "error": {
+      "hotkey": "Hotkey {title} is already in use",
+      "required": "Please fill in all required fields",
+      "icon": "Failed to load the image"
+    }
+  },
+  "placeholder": {
+    "maxSize": "Maximum size 2 MB"
+  }
+}
