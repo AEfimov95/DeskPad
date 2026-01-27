@@ -17,8 +17,8 @@ Built with **Tauri + Vue 3**.
 ## Interface
 
 <p align="center">
-    <img src="./screenshots/create.png" width="30%" />
-    <img src="./screenshots/pads.png" width="30%" /> 
+    <img src="./screenshots/create.png" width="100%" />
+    <img src="./screenshots/pads.png" width="100%" /> 
 </p>
 
 ## Installation
