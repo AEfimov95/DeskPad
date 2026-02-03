@@ -29,8 +29,8 @@ export async function getPadById(id: string) {
 export async function createPad(data: PadPayload) {
   await db.execute(
     `
-        INSERT INTO pads(category_id, name, description, color, icon, type, clipboard_json, clipboard_text, target, hotkey, position) VALUES
-        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, (SELECT COALESCE(MAX(position), -1) + 1 FROM pads WHERE category_id = $1))
+        INSERT INTO pads(category_id, name, description, color, icon, icon_size, type, clipboard_json, clipboard_text, target, hotkey, position) VALUES
+        ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, (SELECT COALESCE(MAX(position), -1) + 1 FROM pads WHERE category_id = $1))
     `,
     [
       data.categoryId,
@@ -38,6 +38,7 @@ export async function createPad(data: PadPayload) {
       data.description ?? null,
       data.color ?? null,
       data.icon ?? null,
+      data.icon_size,
       data.type,
       data.clipboard_json ?? null,
       data.clipboard_text ?? null,
@@ -55,19 +56,21 @@ export async function updatePad(id: string, data: PadPayload) {
             description  = COALESCE($2, description),
             color  = COALESCE($3, color),
             icon = COALESCE($4, icon),
-            type = COALESCE($5, type),
-            clipboard_json  = $6,
-            clipboard_text  = $7,
-            target = $8,
-            hotkey = $9,
+            icon_size = COALESCE($5, icon_size),
+            type = COALESCE($6, type),
+            clipboard_json = $7,
+            clipboard_text = $8,
+            target = $9,
+            hotkey = $10,
             updated_at = unixepoch()
-        WHERE id = $10
+        WHERE id = $11
     `,
     [
       data.name ?? null,
       data.description ?? null,
       data.color ?? null,
       data.icon ?? null,
+      data.icon_size,
       data.type,
       data.clipboard_json ?? null,
       data.clipboard_text ?? null,
@@ -145,7 +148,7 @@ export async function getHotkeyPadsList() {
         SELECT *
         FROM pads
         WHERE hotkey IS NOT NULL
-    `,
+    `
   )
   return rows
 }

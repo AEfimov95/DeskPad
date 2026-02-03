@@ -1,5 +1,6 @@
 export type Theme = 'light' | 'dark'
 export type Lang = 'ru' | 'en'
+export type Icon = 'small' | 'middle' | 'big' | 'full'
 export enum PadType {
   Clipboard = 'clipboard',
   URL = 'url',
@@ -7,7 +8,6 @@ export enum PadType {
 }
 
 export interface Settings {
-
   theme: Theme
   lang: Lang
   show_type: number
@@ -29,6 +29,7 @@ export interface Pad {
   description: string
   color: string
   icon: string | null
+  icon_size: Icon
   clipboard_json: string | null
   clipboard_text: string | null
   type: PadType
@@ -42,7 +43,16 @@ export type UpdateSettingsPayload = Partial<Settings>
 export type CategoryPayload = Pick<Category, 'name' | 'icon'>
 export type PadPayload = Pick<
   Pad,
-  'name' | 'description' | 'color' | 'categoryId' | 'clipboard_text' | 'type' | 'target' | 'icon' | 'hotkey'
+  | 'name'
+  | 'description'
+  | 'color'
+  | 'categoryId'
+  | 'clipboard_text'
+  | 'type'
+  | 'target'
+  | 'icon'
+  | 'icon_size'
+  | 'hotkey'
 > & {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   clipboard_json: any

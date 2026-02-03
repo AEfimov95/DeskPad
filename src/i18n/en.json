@@ -33,6 +33,15 @@
       "description": "Description",
       "color": "Background",
       "icon": "Icon",
+      "icon_size": {
+        "title": "Icon Size",
+        "option": {
+          "small": "Small",
+          "middle": "Medium",
+          "big": "Large",
+          "full": "Background"
+        }
+      },
       "onlyCustom": "Do not load from source",
       "hotkey": "Hotkeys",
       "clipboard": "Сlipboard",
@@ -45,6 +54,7 @@
     "lang": "Language",
     "theme": "Theme",
     "show_type": "Show type",
+    "show_hotkey": "Show Hotkeys",
     "autostart": "Autostart"
   },
   "action": {

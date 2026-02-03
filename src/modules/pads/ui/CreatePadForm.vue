@@ -49,10 +49,20 @@
         <n-checkbox v-model:checked="onlyCustomIcon"> {{ t('pads.form.onlyCustom') }} </n-checkbox>
         <template #feedback> {{ t('placeholder.maxSize') }} </template>
       </n-form-item>
+      <n-form-item :label="t('pads.form.icon_size.title')" path="icon" class="mt-6">
+        <n-select
+          v-model:value="model.icon_size"
+          :disabled="!model.icon"
+          :options="iconSizeOpts"
+          :show-checkmark="false"
+          size="small"
+          style="width: 120px"
+        />
+      </n-form-item>
       <n-radio-group
         v-model:value="model.type"
         name="type"
-        class="mt-6 mb-2"
+        class="mb-2"
         @update:value="model.target = null"
       >
         <n-radio-button
@@ -129,6 +139,13 @@ const padTypes = computed(() => [
   { label: t('pads.form.clipboard'), value: PadType.Clipboard },
   { label: t('pads.form.url'), value: PadType.URL },
   { label: t('pads.form.path'), value: PadType.App },
+])
+
+const iconSizeOpts = computed(() => [
+  { label: t('pads.form.icon_size.option.small'), value: 'small' },
+  { label: t('pads.form.icon_size.option.middle'), value: 'middle' },
+  { label: t('pads.form.icon_size.option.big'), value: 'big' },
+  { label: t('pads.form.icon_size.option.full'), value: 'full' },
 ])
 
 const withHotkey = ref(!!props.modelValue?.hotkey)
@@ -236,6 +253,7 @@ const model = reactive<PadPayload>({
     : new Delta(),
   clipboard_text: props.modelValue?.clipboard_text ?? '',
   icon: props.modelValue?.icon ?? null,
+  icon_size: props.modelValue?.icon_size ?? 'small',
   type: props.modelValue?.type ?? PadType.Clipboard,
   target: props.modelValue?.target ?? null,
   categoryId: props.categoryId,

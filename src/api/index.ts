@@ -64,11 +64,12 @@ export const api = {
     async create(input: PadPayload) {
       const payload: PadPayload = {
         categoryId: input.categoryId,
-        name: input.name || 'Untitled',
+        name: input.name || ' ',
         description: input.description || '',
         color: input.color,
         type: input.type,
         icon: input.icon,
+        icon_size: input.icon_size || 'small',
         target: input.target,
         clipboard_json: JSON.stringify(input.clipboard_json.ops),
         clipboard_text: input.clipboard_text,
@@ -90,11 +91,12 @@ export const api = {
     async update(id: string, patch: PadPayload): Promise<void> {
       const payload: PadPayload = {
         categoryId: patch.categoryId,
-        name: patch.name || 'Untitled',
+        name: patch.name || ' ',
         description: patch.description || '',
         color: patch.color || '#18A058',
         type: patch.type,
         icon: patch.icon,
+        icon_size: patch.icon_size || 'small',
         target: patch.target,
         clipboard_json: JSON.stringify(patch.clipboard_json.ops),
         clipboard_text: patch.clipboard_text,

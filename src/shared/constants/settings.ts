@@ -1,4 +1,4 @@
-import { Settings } from "../interfaces/models";
+import { Settings } from '../interfaces/models'
 
 export const DEFAULT: Settings = {
   theme: 'dark',
