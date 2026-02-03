@@ -31,7 +31,7 @@ const onChange = (e: Event) => {
 
   if (!file) return
 
-  const maxSize = 2000 * 1024
+  const maxSize = 3000 * 1024
 
   if (file.size < maxSize) {
     emit('error', false)

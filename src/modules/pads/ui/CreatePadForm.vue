@@ -34,7 +34,7 @@
           type="text"
           placeholder="Control+Shift+Digit1"
           clearable
-          @clear="hotkey = ''"
+          @clear="clearHotkey"
           @keyup="onKeyUp"
         />
         <n-button :disabled="!withHotkey" type="primary" ghost @click="saveHotkey">
@@ -168,10 +168,13 @@ const defaultIcon = computed(() => {
   }
 })
 
+const clearHotkey = () => {
+  hotkey.value = ''
+  model.hotkey = null
+}
 const onCheckHotkey = (value: boolean) => {
   if (!value) {
-    hotkey.value = ''
-    model.hotkey = null
+    clearHotkey()
   }
 }
 

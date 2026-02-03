@@ -108,7 +108,7 @@ const iconSize = {
   small: 32,
   middle: 64,
   big: 128,
-  full: 0,
+  full: '100%',
 }
 
 const options: DropdownOption[] = [

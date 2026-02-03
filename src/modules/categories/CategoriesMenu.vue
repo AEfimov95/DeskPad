@@ -1,34 +1,33 @@
 <template>
-  <n-flex>
-    <n-layout-sider
-      bordered
-      collapse-mode="width"
-      :collapsed-width="64"
-      :width="256"
+  <n-layout-sider
+    bordered
+    collapse-mode="width"
+    :collapsed-width="64"
+    :width="256"
+    :collapsed="collapsed"
+    show-trigger
+    :native-scrollbar="false"
+    @collapse="collapsed = true"
+    @expand="collapsed = false"
+  >
+    <n-menu
+      ref="menuRef"
+      :value="activeKey"
       :collapsed="collapsed"
-      show-trigger
-      @collapse="collapsed = true"
-      @expand="collapsed = false"
+      :collapsed-width="64"
+      :collapsed-icon-size="32"
+      :icon-size="32"
+      :options="menuOptions"
+      :node-props="nodeAttrs"
+      @update:value="onSelect"
     >
-      <n-menu
-        ref="menuRef"
-        :value="activeKey"
-        :collapsed="collapsed"
-        :collapsed-width="64"
-        :collapsed-icon-size="32"
-        :icon-size="32"
-        :options="menuOptions"
-        :node-props="nodeAttrs"
-        @update:value="onSelect"
-      >
-      </n-menu>
-    </n-layout-sider>
-  </n-flex>
+    </n-menu>
+  </n-layout-sider>
 </template>
 <script setup lang="ts">
 import { computed, h, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { FolderOutline, AddOutline, SettingsOutline } from '@vicons/ionicons5'
-import { MenuOption, NEllipsis, NFlex, NMenu } from 'naive-ui'
+import { MenuOption, NEllipsis, NMenu } from 'naive-ui'
 import { Category } from '@/shared/interfaces/models'
 import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'

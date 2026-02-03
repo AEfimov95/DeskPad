@@ -16,3 +16,13 @@ app.use(router)
 await initDb()
 
 app.mount('#app')
+
+// Let’s pretend we’re not a web app
+window.addEventListener('keydown', (e) => {
+  const ctrl = e.ctrlKey || e.metaKey
+
+  if ((ctrl && e.code === 'KeyF') || (ctrl && e.code === 'KeyR') || e.key === 'F5') {
+    e.preventDefault()
+    e.stopPropagation()
+  }
+})
