@@ -21,6 +21,12 @@
           >
             {{ data.type }}
           </span>
+          <span
+            v-if="settings.show_hotkey"
+            class="absolute top-0 left-1 ma-0 text-white text-shadow-[0_1px_2px_rgb(0_0_0_/_0.8)] truncate opacity-50 text-xs max-w-2/3 z-1"
+          >
+            {{ data.hotkey }}
+          </span>
           <n-image
             v-if="data.icon"
             :src="data.icon"

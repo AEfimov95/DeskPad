@@ -41,6 +41,17 @@
         />
       </n-space>
       <n-space vertical>
+        <h4 class="ma-0">{{ t('settings.show_hotkey') }}</h4>
+        <n-switch
+          :value="settings.show_hotkey"
+          :checked-value="1"
+          :unchecked-value="0"
+          :rail-style="railStyle"
+          size="large"
+          @update:value="(v: number) => appStore.setSettings({ show_hotkey: v })"
+        />
+      </n-space>
+      <n-space vertical>
         <h4 class="ma-0">{{ t('settings.autostart') }}</h4>
         <n-switch
           :value="settings.autostart"

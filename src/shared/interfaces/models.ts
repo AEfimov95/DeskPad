@@ -11,6 +11,7 @@ export interface Settings {
   theme: Theme
   lang: Lang
   show_type: number
+  show_hotkey: number
   autostart: boolean
 }
 
