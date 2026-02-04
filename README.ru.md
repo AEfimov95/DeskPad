@@ -17,17 +17,36 @@
 ## Интерфейс
 
 <p align="center">
-    <img src="./screenshots/create.png" width="32%" />
-    <img src="./screenshots/pads.png" width="32%" /> 
+     <img src="./screenshots/create.png" width="100%" />
+     <img src="./screenshots/pads.png" width="100%" /> 
 </p>
 
 ## Установка
 
+Скачать последнюю версию из [раздела релизов](https://github.com/AEfimov95/deskpad/releases)
+
+### Системные требования
+
+- Windows 10/11 x64
+- macOS 12+ (Apple Silicon или Intel)
+- Linux x64 с WebKitGTK (рекомендуется Ubuntu 22.04+)
+
 ### Windows
 
-- Скачать последнюю версию из [раздела релизов](https://github.com/AEfimov95/deskpad/releases)
-- Установить в удобное место
-- Запустить исполняемый файл
+- Установите приложение или запустите portable-версию
+
+### macOS
+
+- Скачайте `.dmg` для вашей архитектуры (Apple Silicon или Intel)
+- Откройте и перетащите DeskPad в «Applications»
+
+### Linux
+
+- Скачайте `.AppImage`
+- Сделайте файл исполняемым и запустите:
+```
+chmod +x DeskPad.AppImage && ./DeskPad.AppImage
+```
 
 ## Приватность
 
@@ -39,7 +58,7 @@
 ### Требования
 
 - Node 20+
-- Rust stable
+- Rust (stable)
 - Tauri 2
 
 ### Запуск в режиме разработки

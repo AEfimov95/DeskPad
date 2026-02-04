@@ -1,5 +1,5 @@
 [![ru](https://img.shields.io/badge/README-ru-red.svg)](https://github.com/AEfimov95/deskpad/blob/main/README.ru.md)
- 
+
 # DeskPad
 
 A simple desktop app for quick access to files, links, and templates.  
@@ -23,11 +23,31 @@ Built with **Tauri + Vue 3**.
 
 ## Installation
 
+Download the latest version from the [Releases](https://github.com/AEfimov95/deskpad/releases)
+
+### System requirements
+
+- Windows 10/11 x64
+- macOS 12+ (Apple Silicon or Intel)
+- Linux x64 with WebKitGTK (Ubuntu 22.04+ recommended)
+
+
 ### Windows
 
-- Download the latest version from the [Releases](https://github.com/AEfimov95/deskpad/releases)
-- Install to any location
-- Run the executable
+- Install or run the portable version
+
+### macOS
+
+- Download the `.dmg` for your architecture (Apple Silicon or Intel)
+- Open and drag DeskPad to «Applications»
+
+### Linux
+
+- Download the `.AppImage`
+- Make executable and run:
+```
+chmod +x DeskPad.AppImage && ./DeskPad.AppImage
+```
 
 ## Privacy
 
