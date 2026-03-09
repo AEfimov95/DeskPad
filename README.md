@@ -3,13 +3,15 @@
 # DeskPad
 
 A simple desktop app for quick access to files, links, and templates.  
-Built with **Tauri + Vue 3**.
+Built with **Tauri + Vue 3**.  
+
+[Download](#downloads) • [Development](#development)
 
 ## Features
 
 - Copy to clipboard (HTML / plain text)
 - Open links
-- Launch files and applications
+- Open files and launch applications
 - Global hotkeys support
 - Drag & Drop support
 - Local data storage
@@ -25,12 +27,22 @@ Built with **Tauri + Vue 3**.
 
 Download the latest version from the [Releases](https://github.com/AEfimov95/deskpad/releases)
 
+### Downloads
+
+| Platform | Type | ⬇️ |
+|---|---|---|
+| Windows | Installer (NSIS) | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64-setup.exe) |
+| Windows | Installer (MSI) | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64_en-US.msi) |
+| Windows | Portable | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_portable_windows_x64.zip) |
+| macOS | Apple Silicon (arm64) | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_aarch64.dmg) |
+| macOS | Intel (x64) | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64.dmg) |
+| Linux | AppImage (x64) | [Download](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_amd64.AppImage) |
+
 ### System requirements
 
 - Windows 10/11 x64
 - macOS 12+ (Apple Silicon or Intel)
 - Linux x64 with WebKitGTK (Ubuntu 22.04+ recommended)
-
 
 ### Windows
 
@@ -39,14 +51,15 @@ Download the latest version from the [Releases](https://github.com/AEfimov95/des
 ### macOS
 
 - Download the `.dmg` for your architecture (Apple Silicon or Intel)
-- Open and drag DeskPad to «Applications»
+- Open the DMG and drag DeskPad to Applications
 
 ### Linux
 
 - Download the `.AppImage`
 - Make executable and run:
 ```
-chmod +x DeskPad.AppImage && ./DeskPad.AppImage
+chmod +x DeskPad*.AppImage
+./DeskPad*.AppImage
 ```
 
 ## Privacy
