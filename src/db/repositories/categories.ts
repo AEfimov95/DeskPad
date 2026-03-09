@@ -1,5 +1,5 @@
 import { db } from '@/db'
-import { Category, CategoryPayload } from '@/shared/interfaces/models'
+import { Category, CategoryPayload, ExportCategory, PadType } from '@/shared/interfaces/models'
 
 export async function getCategoriesList() {
   const rows = await db.select<Category[]>(
@@ -74,18 +74,18 @@ export async function moveCategory(categoryId: string, from: number, to: number)
         `
           UPDATE categories
           SET position = position - 1, updated_at = unixepoch()
-          WHERE position > $2 AND position <= $3
+          WHERE position > $1 AND position <= $2
         `,
-        [categoryId, from, to]
+        [from, to]
       )
     } else {
       await db.execute(
         `
           UPDATE categories
           SET position = position + 1, updated_at = unixepoch()
-          WHERE position >= $2 AND position < $3
+          WHERE position >= $1 AND position < $2
         `,
-        [categoryId, to, from]
+        [to, from]
       )
     }
 
@@ -101,6 +101,78 @@ export async function moveCategory(categoryId: string, from: number, to: number)
     await db.execute('COMMIT')
   } catch (e) {
     await db.execute('ROLLBACK')
+    throw e
+  }
+}
+
+export async function importCategory(data: ExportCategory) {
+  let categoryId: string | null = null
+  try {
+    const rows = await db.select<{ id: string }[]>(
+      `
+      INSERT INTO categories(name, icon, position)
+      VALUES ($1, $2, (SELECT COALESCE(MAX(position), -1) + 1 FROM categories))
+      RETURNING id
+      `,
+      [data.name, data.icon ?? null]
+    )
+    categoryId = rows[0]?.id
+    if (!categoryId) throw new Error('Import failed')
+    let pos = 0
+    for (const pad of data.pads) {
+      if (pad.type === PadType.App) continue
+      const name = pad.name
+      const description = pad.description
+      const color = pad.color
+      const icon = pad.icon
+      const iconSize = pad.icon_size ?? 'small'
+
+      let clipboardJson: string | null = null
+      let clipboardText: string | null = null
+      let target: string | null = null
+
+      if (pad.type === PadType.Clipboard) {
+        clipboardJson = pad.clipboard_json ?? null
+        clipboardText = pad.clipboard_text ?? null
+        target = null
+      }
+
+      if (pad.type === PadType.URL) {
+        target = pad.target ?? null
+        clipboardJson = null
+        clipboardText = null
+      }
+
+      await db.execute(
+        `
+        INSERT INTO pads(
+          category_id, name, description, color, icon, icon_size,
+          type, clipboard_json, clipboard_text, target, hotkey, position
+        )
+        VALUES (
+          $1, $2, $3, $4, $5, $6,
+          $7, $8, $9, $10, NULL,
+          $11
+        )
+        `,
+        [
+          categoryId,
+          name,
+          description,
+          color,
+          icon,
+          iconSize,
+          pad.type,
+          clipboardJson,
+          clipboardText,
+          target,
+          pos,
+        ]
+      )
+      pos++
+    }
+  } catch (e) {
+    if (categoryId) await deleteCategory(categoryId)
     throw e
   }
 }

@@ -28,6 +28,14 @@
 
     "dialog:default",
     "clipboard-manager:allow-write-html",
-    "store:default"
+    "store:default",
+    "fs:allow-create",
+    "fs:allow-write",
+    "fs:allow-read",
+    "fs:allow-read-text-file",
+    {
+      "identifier": "fs:scope",
+      "allow": [{ "path": "$APPDATA" }, { "path": "$APPDATA/**/*" }]
+    }
   ]
 }

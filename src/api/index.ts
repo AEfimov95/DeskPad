@@ -3,6 +3,7 @@ import {
   deleteCategory,
   getCategoriesList,
   getCategoryById,
+  importCategory,
   moveCategory,
   updateCategory,
 } from '@/db/repositories/categories'
@@ -21,6 +22,7 @@ import {
   type PadPayload,
   type Pad,
   PadType,
+  ExportCategory,
 } from '@/shared/interfaces/models'
 
 export const api = {
@@ -49,6 +51,10 @@ export const api = {
 
     async move(categoryId: string, from: number, to: number) {
       await moveCategory(categoryId, from, to)
+    },
+
+    async import(payload: ExportCategory) {
+      await importCategory(payload)
     },
   },
 

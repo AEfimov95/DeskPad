@@ -20,15 +20,17 @@
       :options="menuOptions"
       :node-props="nodeAttrs"
       @update:value="onSelect"
-    >
-    </n-menu>
+    />
   </n-layout-sider>
 </template>
 <script setup lang="ts">
 import { computed, h, nextTick, onMounted, onUnmounted, ref } from 'vue'
-import { FolderOutline, AddOutline, SettingsOutline } from '@vicons/ionicons5'
+import { FolderOutline, AddOutline, SettingsOutline, DownloadOutline } from '@vicons/ionicons5'
 import { MenuOption, NEllipsis, NMenu } from 'naive-ui'
-import { Category } from '@/shared/interfaces/models'
+import { open } from '@tauri-apps/plugin-dialog'
+import { readTextFile } from '@tauri-apps/plugin-fs'
+import { notify } from '@/shared/services/notify'
+import { Category, ExportCategory } from '@/shared/interfaces/models'
 import { useI18n } from 'vue-i18n'
 import { RouterLink, useRouter } from 'vue-router'
 import { useAppStore } from '@/stores/app-store'
@@ -56,7 +58,7 @@ const menuRef = ref<typeof NMenu | null>(null)
 let sortable: Sortable | null = null
 
 const nodeAttrs = (option: MenuOption) => {
-  const customItem = option.key !== 'settings' && option.key !== 'add'
+  const customItem = option.key !== 'settings' && option.key !== 'add' && option.key !== 'import'
   return {
     class: customItem ? 'draggable-item' : '',
     'data-id': option.key,
@@ -96,7 +98,31 @@ async function initSortable() {
 const onSelect = async (key: string) => {
   if (key === 'add') {
     return showCreateCategoryModal()
-  } else if (key !== 'settings') {
+  }
+  if (key === 'import') {
+    const path = await open({
+      multiple: false,
+      directory: false,
+      filters: [
+        {
+          name: t('fs.category'),
+          extensions: ['json'],
+        },
+      ],
+    })
+    if (!path) return
+    try {
+      const read = JSON.parse(await readTextFile(path)) as ExportCategory
+      await api.categories.import(read)
+      notify.success(t('message.imported'))
+      await appStore.refreshCategories()
+    } catch {
+      notify.error(t('message.error.imported'))
+    }
+    return
+  }
+
+  if (key !== 'settings') {
     selectedCategory.value = await api.categories.get(key)
     router.push({ name: 'pads', params: { id: key } })
   }
@@ -122,6 +148,11 @@ const menuOptions = computed<MenuOption[]>(() => {
       label: () => t('category.menu.add'),
       key: 'add',
       icon: renderIcon(AddOutline),
+    },
+    {
+      label: () => t('category.menu.import'),
+      key: 'import',
+      icon: renderIcon(DownloadOutline),
     },
     {
       label: () =>

@@ -58,3 +58,20 @@ export type PadPayload = Pick<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   clipboard_json: any
 }
+export type ExportPad = {
+  name: string
+  description: string
+  color: string
+  icon: string | null
+  icon_size: 'small' | 'medium' | 'large'
+  type: PadType
+  clipboard_json: string | null
+  clipboard_text: string | null
+  target: string | null
+}
+
+export type ExportCategory = {
+  name: string
+  icon: string | null
+  pads: ExportPad[]
+}

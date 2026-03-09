@@ -2,7 +2,8 @@
   "category": {
     "menu": {
       "add": "Add category",
-      "settings": "Settings"
+      "settings": "Settings",
+      "import": "Import categories"
     },
     "create": {
       "title": "Add category"
@@ -66,13 +67,20 @@
   },
   "message": {
     "copied": "Copied",
+    "saved": "Saved",
+    "imported": "Imported",
     "error": {
       "hotkey": "Hotkey {title} is already in use",
       "required": "Please fill in all required fields",
-      "icon": "Failed to load the image"
+      "icon": "Failed to load the image",
+      "saved": "Failed to save category",
+      "imported": "Invalid format"
     }
   },
   "placeholder": {
     "maxSize": "Maximum size 3 MB"
+  },
+  "fs": {
+    "category": "Category"
   }
 }

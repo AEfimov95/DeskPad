@@ -12,7 +12,7 @@ pub fn run() {
             sql: include_str!("./migration/0000_init.sql"),
             kind: MigrationKind::Up,
         },
-         Migration {
+        Migration {
             version: 2,
             description: "add icon size",
             sql: include_str!("./migration/0001_icon_size.sql"),
@@ -20,6 +20,7 @@ pub fn run() {
         },
     ];
     tauri::Builder::default()
+        .plugin(tauri_plugin_fs::init())
         .plugin(tauri_plugin_autostart::Builder::new().build())
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_window_state::Builder::new().build())

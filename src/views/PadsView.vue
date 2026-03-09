@@ -1,6 +1,11 @@
 <template>
   <n-card embedded :bordered="false" :title="selectedCategory?.name" class="h-full min-h-fit">
     <template #header-extra>
+      <n-button quaternary size="small" @click="exportCategory">
+        <template #icon>
+          <n-icon :component="SaveOutline" />
+        </template>
+      </n-button>
       <n-button quaternary size="small" @click="showUpdateCategoryModal(selectedCategory)">
         <template #icon>
           <n-icon :component="PencilOutline" />
@@ -40,8 +45,11 @@
 <script setup lang="ts">
 import { nextTick, onBeforeUnmount, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import { TrashOutline, PencilOutline } from '@vicons/ionicons5'
+import { TrashOutline, PencilOutline, SaveOutline } from '@vicons/ionicons5'
 import { NButton, NGrid } from 'naive-ui'
+import { create } from '@tauri-apps/plugin-fs'
+import { save } from '@tauri-apps/plugin-dialog'
+import { useI18n } from 'vue-i18n'
 import Sortable from 'sortablejs'
 import CreatePad from '@/modules/pads/CreatePad.vue'
 import DeskPad from '@/modules/pads/DeskPad.vue'
@@ -50,6 +58,10 @@ import { useAppStore } from '@/stores/app-store'
 import { storeToRefs } from 'pinia'
 import { usePadsModal } from '@/modules/pads/composables/usePadModal'
 import { api } from '@/api'
+import { PadType } from '@/shared/interfaces/models'
+import { notify } from '@/shared/services/notify'
+
+const { t } = useI18n()
 
 const router = useRouter()
 
@@ -95,6 +107,54 @@ async function initSortable() {
       await updatePosition(id, oldIndex, newIndex)
     },
   })
+}
+
+const exportCategory = async () => {
+  const path = await save({
+    filters: [{ name: t('fs.category'), extensions: ['json'] }],
+  })
+
+  if (!path) return
+  const exportPadsData = currentPads.value
+    .filter((pad) => pad.type !== PadType.App)
+    .map(
+      ({
+        name,
+        description,
+        color,
+        icon,
+        type,
+        clipboard_json,
+        clipboard_text,
+        icon_size,
+        target,
+      }) => ({
+        name,
+        description,
+        color,
+        icon,
+        type,
+        clipboard_json,
+        clipboard_text,
+        icon_size,
+        target,
+      })
+    )
+
+  const exportCategoryData = {
+    icon: selectedCategory.value?.icon,
+    name: selectedCategory.value?.name,
+    pads: exportPadsData,
+  }
+  
+  try {
+    const file = await create(path)
+    await file.write(new TextEncoder().encode(JSON.stringify(exportCategoryData, null, 2)))
+    await file.close()
+    notify.success(t('message.saved'))
+  } catch {
+    notify.success(t('message.error.saved'))
+  }
 }
 
 onBeforeUnmount(() => {
