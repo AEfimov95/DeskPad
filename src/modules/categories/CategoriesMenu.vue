@@ -12,6 +12,7 @@
   >
     <n-menu
       ref="menuRef"
+      class="pb-none"
       :value="activeKey"
       :collapsed="collapsed"
       :collapsed-width="64"
@@ -20,6 +21,15 @@
       :options="menuOptions"
       :node-props="nodeAttrs"
       @update:value="onSelect"
+    />
+    <n-menu
+      :value="activeKey"
+      :collapsed="collapsed"
+      :collapsed-width="64"
+      :collapsed-icon-size="32"
+      :icon-size="32"
+      :options="systemMenuOptions"
+      @update:value="onSystemSelect"
     />
   </n-layout-sider>
 </template>
@@ -58,9 +68,8 @@ const menuRef = ref<typeof NMenu | null>(null)
 let sortable: Sortable | null = null
 
 const nodeAttrs = (option: MenuOption) => {
-  const customItem = option.key !== 'settings' && option.key !== 'add' && option.key !== 'import'
   return {
-    class: customItem ? 'draggable-item' : '',
+    class: 'draggable-item',
     'data-id': option.key,
   }
 }
@@ -96,6 +105,12 @@ async function initSortable() {
 }
 
 const onSelect = async (key: string) => {
+  selectedCategory.value = await api.categories.get(key)
+  router.push({ name: 'pads', params: { id: key } })
+  activeKey.value = key
+}
+
+const onSystemSelect = async (key: string) => {
   if (key === 'add') {
     return showCreateCategoryModal()
   }
@@ -121,11 +136,6 @@ const onSelect = async (key: string) => {
     }
     return
   }
-
-  if (key !== 'settings') {
-    selectedCategory.value = await api.categories.get(key)
-    router.push({ name: 'pads', params: { id: key } })
-  }
   activeKey.value = key
 }
 
@@ -142,8 +152,11 @@ function renderMenuItem(item: Category): MenuOption {
 }
 
 const menuOptions = computed<MenuOption[]>(() => {
+  return [...categories.value.map((item) => renderMenuItem(item))]
+})
+
+const systemMenuOptions = computed<MenuOption[]>(() => {
   return [
-    ...categories.value.map((item) => renderMenuItem(item)),
     {
       label: () => t('category.menu.add'),
       key: 'add',

@@ -3,7 +3,7 @@
     "menu": {
       "add": "Add category",
       "settings": "Settings",
-      "import": "Import categories"
+      "import": "Import category"
     },
     "create": {
       "title": "Add category"
