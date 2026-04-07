@@ -82,8 +82,7 @@ jobs:
         if: matrix.platform == 'windows-latest'
         shell: pwsh
         run: |
-          $conf = Get-Content "src-tauri/tauri.conf.json" -Raw | ConvertFrom-Json
-          $version = $conf.version
+          $version = node -p "require('./package.json').version"
 
           $exe = "src-tauri/target/release/deskpad.exe"
           if (!(Test-Path $exe)) {

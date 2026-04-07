@@ -1,6 +1,6 @@
 [package]
 name = "deskpad"
-version = "0.3.0"
+version = "0.0.0"
 description = "DeskPad"
 authors = ["AEfimov95"]
 license = "MIT"
