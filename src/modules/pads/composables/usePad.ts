@@ -2,9 +2,10 @@ import { i18n } from '@/i18n'
 import { Pad, PadType } from '@/shared/interfaces/models'
 import { notify } from '@/shared/services/notify'
 import { writeHtml } from '@tauri-apps/plugin-clipboard-manager'
-import { openPath, openUrl } from '@tauri-apps/plugin-opener'
+import { openUrl } from '@tauri-apps/plugin-opener'
 import { Op } from 'quill'
 import { QuillDeltaToHtmlConverter } from 'quill-delta-to-html'
+import { invoke } from '@tauri-apps/api/core'
 
 export function usePad() {
   function deltaToText(ops: Op[]): string {
@@ -32,7 +33,7 @@ export function usePad() {
       openUrl(pad.target)
     }
     if (pad.type === PadType.App && pad.target) {
-      openPath(pad.target)
+      await invoke('path_launcher', { path: pad.target })
     }
   }
 

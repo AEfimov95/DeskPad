@@ -1,5 +1,6 @@
 mod commands;
 
+use commands::path_launcher::path_launcher;
 use commands::system_icons::get_system_icon_base64;
 use tauri_plugin_sql::{Migration, MigrationKind};
 
@@ -44,7 +45,10 @@ pub fn run() {
                 .add_migrations("sqlite:deskpad.db", migrations)
                 .build(),
         )
-        .invoke_handler(tauri::generate_handler![get_system_icon_base64])
+        .invoke_handler(tauri::generate_handler![
+            get_system_icon_base64,
+            path_launcher,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -25,7 +25,7 @@
   },
   "bundle": {
     "active": true,
-    "targets": ["appimage", "dmg", "nsis", "msi"],
+    "targets": ["appimage", "deb", "dmg", "nsis", "msi"],
     "macOS": {
       "dmg": {
         "windowSize": {
@@ -39,6 +39,9 @@
     "linux": {
       "appimage": {
         "bundleMediaFramework": false
+      },
+      "deb": {
+        "depends": ["libwebkit2gtk-4.1-0", "libgtk-3-0", "libsoup-3.0-0"]
       }
     },
     "icon": [
