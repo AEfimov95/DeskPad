@@ -25,44 +25,53 @@
       <n-form-item :label="t('pads.form.hotkey')" path="hotkey">
         <template #label>
           {{ t('pads.form.hotkey') }}
-
-          <n-checkbox v-model:checked="withHotkey" class="ml-2" @update:checked="onCheckHotkey" />
         </template>
         <n-input
-          :disabled="!withHotkey"
-          :value="hotkey"
+          :value="model.hotkey"
           type="text"
           placeholder="Control+Shift+Digit1"
           clearable
           @clear="clearHotkey"
           @keyup="onKeyUp"
-        />
-        <n-button :disabled="!withHotkey" type="primary" ghost @click="saveHotkey">
-          {{ t('action.save') }}
-        </n-button>
-      </n-form-item>
-      <n-form-item :label="t('pads.form.icon')" path="icon" content-class="gap-2">
-        <n-avatar :src="model.icon">
-          <n-icon v-if="!model.icon" :component="defaultIcon" />
-        </n-avatar>
-        <InputFile @update="saveIcon" />
-        <n-checkbox v-model:checked="onlyCustomIcon"> {{ t('pads.form.onlyCustom') }} </n-checkbox>
-        <template #feedback> {{ t('placeholder.maxSize') }} </template>
-      </n-form-item>
-      <n-form-item :label="t('pads.form.icon_size.title')" path="icon" class="mt-6">
-        <n-select
-          v-model:value="model.icon_size"
-          :disabled="!model.icon"
-          :options="iconSizeOpts"
-          :show-checkmark="false"
-          size="small"
-          style="width: 120px"
+          @blur="checkHotkey"
         />
       </n-form-item>
+      <div class="flex items-start">
+        <n-form-item class="flex-1" :label="t('pads.form.icon')" path="icon" content-class="gap-2">
+          <n-badge color="grey pa-0" :offset="[-1, 1]">
+            <n-avatar :src="model.icon">
+              <n-icon v-if="!model.icon" :component="defaultIcon" />
+            </n-avatar>
+            <template #value>
+              <n-icon
+                v-if="model.icon"
+                :depth="2"
+                class="cursor-pointer opacity-50 hover:opacity-100"
+                :size="14"
+                :component="CloseCircle"
+                @click="clearIcon"
+              />
+            </template>
+          </n-badge>
+          <InputFile @update="saveIcon" />
+          <template #feedback> {{ t('placeholder.maxSize') }} </template>
+        </n-form-item>
+        <n-form-item class="flex-1" :label="t('pads.form.icon_size.title')" path="icon">
+          <n-select
+            v-model:value="model.icon_size"
+            :disabled="!model.icon"
+            :options="iconSizeOpts"
+            :show-checkmark="false"
+            size="small"
+            style="width: 120px"
+          />
+        </n-form-item>
+      </div>
+
       <n-radio-group
         v-model:value="model.type"
         name="type"
-        class="mb-2"
+        class="mb-2 mt-6"
         @update:value="model.target = null"
       >
         <n-radio-button
@@ -96,9 +105,6 @@
       >
         <n-input-group>
           <n-input v-model:value="model.target" placeholder="https://" />
-          <n-button type="primary" ghost @click="saveTargetIcon">
-            {{ t('action.load_icon') }}
-          </n-button>
         </n-input-group>
       </n-form-item>
       <n-form-item
@@ -124,8 +130,7 @@ import '@vueup/vue-quill/dist/vue-quill.core.css'
 import { computed, reactive, ref, watch } from 'vue'
 import { open } from '@tauri-apps/plugin-dialog'
 import { loadAppIcon } from '../utils/app'
-import { AppsOutline, CopyOutline, LinkOutline } from '@vicons/ionicons5'
-import { getImage } from '../utils/http'
+import { AppsOutline, CopyOutline, LinkOutline, CloseCircle } from '@vicons/ionicons5'
 import InputFile from '@/shared/components/ui/InputFile.vue'
 import { getBase64File } from '@/shared/utils/base64'
 import { isRegistered } from '@tauri-apps/plugin-global-shortcut'
@@ -148,10 +153,6 @@ const iconSizeOpts = computed(() => [
   { label: t('pads.form.icon_size.option.full'), value: 'full' },
 ])
 
-const withHotkey = ref(!!props.modelValue?.hotkey)
-const onlyCustomIcon = ref(false)
-const hotkey = ref(props.modelValue?.hotkey ?? '')
-
 const defaultIcon = computed(() => {
   switch (model.type) {
     case PadType.App:
@@ -169,13 +170,7 @@ const defaultIcon = computed(() => {
 })
 
 const clearHotkey = () => {
-  hotkey.value = ''
   model.hotkey = null
-}
-const onCheckHotkey = (value: boolean) => {
-  if (!value) {
-    clearHotkey()
-  }
 }
 
 const normalizeHotkey = (e: KeyboardEvent): string | null => {
@@ -208,19 +203,21 @@ const onKeyUp = (e: KeyboardEvent) => {
   const normalized = normalizeHotkey(e)
   if (!normalized) return
 
-  hotkey.value = normalized
+  model.hotkey = normalized
 }
 
-const saveHotkey = async () => {
+const checkHotkey = async () => {
+  if (!model.hotkey) return
   try {
-    const is = await isRegistered(hotkey.value)
+    const is = await isRegistered(model.hotkey)
     if (is) {
+      model.hotkey = null
       return notify.error(t('message.error.hotkey'))
     }
   } catch {
+    model.hotkey = null
     return notify.error(t('message.error.hotkey'))
   }
-  model.hotkey = hotkey.value
 }
 
 const saveIcon = async (icon: File | null) => {
@@ -230,10 +227,9 @@ const saveIcon = async (icon: File | null) => {
   model.icon = await getBase64File(icon)
 }
 
-const saveTargetIcon = async () => {
-  if (onlyCustomIcon.value) return
-  const file = await getImage(model.target)
-  saveIcon(file)
+const clearIcon = () => {
+  model.icon = null
+  model.icon_size = 'small'
 }
 
 const openFile = async () => {
@@ -241,7 +237,7 @@ const openFile = async () => {
     multiple: false,
     directory: false,
   })
-  if (onlyCustomIcon.value || !model.target) return
+  if (!model.target) return
   model.icon = await loadAppIcon(model.target)
 }
 

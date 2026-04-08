@@ -43,7 +43,6 @@
           "full": "Background"
         }
       },
-      "onlyCustom": "Do not load from source",
       "hotkey": "Hotkeys",
       "clipboard": "Сlipboard",
       "url": "URL",
@@ -62,8 +61,7 @@
     "save": "Save",
     "delete": "Delete",
     "select": "Select",
-    "edit": "Edit",
-    "load_icon": "Upload icon"
+    "edit": "Edit"
   },
   "message": {
     "copied": "Copied",
