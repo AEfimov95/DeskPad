@@ -2,7 +2,7 @@
 
 # DeskPad
 
-A simple desktop app for quick access to files, links, and templates.  
+A desktop utility for organizing quick access to project files, links and snippets. 
 Built with **Tauri + Vue 3**.  
 
 [Download](#downloads) • [Development](#development)

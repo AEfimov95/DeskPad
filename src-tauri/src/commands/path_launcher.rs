@@ -1,12 +1,10 @@
-use std::fs;
-use std::path::Path;
-use std::process::Command;
 use tauri::AppHandle;
 use tauri_plugin_opener::OpenerExt;
 
 #[cfg(target_os = "linux")]
-use std::os::unix::fs::PermissionsExt;
+use std::path::Path;
 
+#[cfg(target_os = "linux")]
 fn is_desktop(path: &Path) -> bool {
     if !path.is_file() {
         return false;
@@ -25,6 +23,10 @@ fn is_desktop(path: &Path) -> bool {
 pub fn path_launcher(app: AppHandle, path: String) -> Result<(), String> {
     #[cfg(target_os = "linux")]
     {
+        use std::fs;
+        use std::os::unix::fs::PermissionsExt;
+        use std::process::Command;
+
         let p = Path::new(&path);
 
         if is_desktop(p) {
