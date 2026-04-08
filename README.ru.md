@@ -31,12 +31,13 @@
 
 | Платформа | Тип | ⬇️ |
 |---|---|---|
-| Windows | Установщик (NSIS) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64-setup.exe) |
-| Windows | Установщик (MSI) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64_en-US.msi) |
-| Windows | Портативная версия | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_portable_windows_x64.zip) |
-| macOS | Apple Silicon (arm64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_aarch64.dmg) |
-| macOS | Intel (x64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_x64.dmg) |
-| Linux | AppImage (x64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.0/DeskPad_0.3.0_amd64.AppImage) |
+| Windows | Установщик (NSIS) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_x64-setup.exe) |
+| Windows | Установщик (MSI) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_x64_en-US.msi) |
+| Windows | Портативная версия | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_portable_windows_x64.zip) |
+| macOS | Apple Silicon (arm64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_aarch64.dmg) |
+| macOS | Intel (x64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_x64.dmg) |
+| Linux | AppImage (x64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_amd64.AppImage) |
+| Linux | Deb (x64) | [Скачать](https://github.com/AEfimov95/DeskPad/releases/download/v0.3.1/DeskPad_0.3.1_amd64.deb) |
 
 ### Системные требования
 
